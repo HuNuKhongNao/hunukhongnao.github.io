@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Thư viện Liyami | Đại sảnh</title>
+  <title>Thư viện Liyami | Kho sách</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="index,follow">
@@ -20,10 +20,19 @@
     });
 </script>
 
-
+<!-- pagination -->
 <script src="/ccompo.js" defer></script>
 
+<script
+			  src="https://code.jquery.com/jquery-3.7.1.min.js"
+			  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			  crossorigin="anonymous">
+</script>
 
+<script src="https://pagination.js.org/dist/2.6.0/pagination.min.js"></script>
+<link rel="stylesheet" href="https://pagination.js.org/dist/2.6.0/pagination.css">
+
+<!------------------------------------->
 
 <html>
    <body id="iix1m">
@@ -34,28 +43,63 @@
     </section>
     <section class="giscus-section">
       <div class="giscus-container">
-         <div id="irb69">Đại sảnh</div>
+         <div id="irb69">Kho sách</div>
       </div>
     </section>
     <div id="ir7xa" class="gjs-divider"></div>
     <div data-type-role="flex-row" id="imxcj" class="gjs-plg-flex-row"></div>
     <section id="ie2od" class="gjs-section">
-      <div id="i182n" class="gjs-container"></div>
+      <div id="i182n" class="gjs-container"></post-card></div>
     </section>
     <div data-type-role="flex-row" id="iifrv" class="gjs-plg-flex-row"></div>
+    
+    <section class="giscus-section">
+    <div id="pagination-container"></div>
+    </section>
   </body>
 </html>
 
 
 <script type="module">
-   const customIndexes = []; // Your custom list
-   const container = document.getElementById('i182n'); // Replace with your actual container ID
+const username = 'hunukhongnao';
+const repo = 'Liyami';
 
-   customIndexes.forEach(index => {
-   const el = document.createElement('post-card');
-   el.setAttribute('index', index);
-   container.appendChild(el);
-   });
+fetch(`https://api.github.com/repos/${username}/${repo}/contents/meta`)
+  .then(res => res.json())
+  .then(files => {
+    const container = document.getElementById('i182n');
+    
+    // Filter out only .json files
+    const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+    
+    // Sort the files based on the numbers in their filenames
+    jsonFiles.sort((a, b) => {
+      const numA = parseInt(a.name.match(/^(\d+)\.json$/)[1], 10);
+      const numB = parseInt(b.name.match(/^(\d+)\.json$/)[1], 10);
+      return numA - numB;
+    });
+
+    // Create and append the <post-card> elements in sorted order
+    const indexes = jsonFiles
+      .map(file => {
+         const match = file.name.match(/^(\d+)\.json$/);
+         return match ? parseInt(match[1], 10) : null;
+      })
+      .filter(index => index !== null);
+    
+    $('#pagination-container').pagination({
+      dataSource: indexes,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      showSizeChanger: true,
+      callback: function(data, pagination) {
+        const html = data.map(index => `<post-card index="${index}"></post-card>`).join('');
+        $('#i182n').html(html);
+      }
+    });
+
+  });
 </script>
 
 
