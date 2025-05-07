@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<div id="header-placeholder"></div>
+<meta charset="utf-8">
+<head>
+  <title>Thư viện Liyami | Đại sảnh</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="generator" content="GrapesJS Studio">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<!-- script to load header.html -->
+<script>
+  fetch('header.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+    });
+</script>
+
+
+<script src="ccompo.js" defer></script>
+
+
+
+<html>
+   <body id="iix1m">
+    <h1 id="i543u">Thư viện Liyami</h1>
+    <div id="iwiyi">
+      <div id="irb69">Bài mới nhất</div>
+    </div>
+    <div id="ir7xa" class="gjs-divider"></div>
+    <div data-type-role="flex-row" id="imxcj" class="gjs-plg-flex-row"></div>
+    <section id="ie2od" class="gjs-section">
+      <div id="i182n" class="gjs-container"><post-card index="0"></post-card></div>
+    </section>
+    <div data-type-role="flex-row" id="iifrv" class="gjs-plg-flex-row"></div>
+  </body>
+</html>
+
+
+<script type="module">
+const username = 'HuNuKhongNao';
+    const repo = 'Liyami
+
+    fetch(`https://api.github.com/repos/${username}/${repo}/contents/meta`)
+      .then(res => res.json())
+      .then(files => {
+        const container = document.getElementById('i182n');
+        files
+          .filter(file => file.name.endsWith('.json'))
+          .forEach(file => {
+            const el = document.createElement('post-card');
+            el.setAttribute('index', file.download_url);
+            container.appendChild(el);
+          });
+   });
+   
+</script>
